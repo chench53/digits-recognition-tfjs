@@ -3,6 +3,7 @@
 """
 import numpy as np
 import tensorflow as tf
+import tensorflowjs as tfjs
 
 # https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
 # I suggest you download this data file before run the model if you get a bad network.
@@ -29,7 +30,8 @@ def train_modle(data):
 
     model.fit(x_train, y_train, epochs=5)
     model.evaluate(x_test, y_test)
-    model.save('{}/model.h5'.format(modle_path))
+    # model.save('{}/model.h5'.format(modle_path)) # uncomment it if you need the original .h5 file
+    tfjs.converters.save_keras_model(model, modle_path)
 
 data = load_data(data_path)
 train_modle(data)
