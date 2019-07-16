@@ -4,6 +4,7 @@
         <title>Simple demo</title>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
         <script src='http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
         <link href="https://cdn.muicss.com/mui-0.9.42/css/mui.min.css" rel="stylesheet" type="text/css" />
         <script src='./model.js'></script>
     </head>
@@ -11,12 +12,39 @@
         <p>Simple demo</p>
         <div id='container'>
             <canvas width="140" height="140" id="canvas" class="canvas"></canvas>
+            <canvas width="28" height="28" id="mini_canvas"></canvas>
             <div class='button-container'>
                 <button class="mui-btn mui-btn--primary btn" onclick="recognize()">recognize</button>
                 <button class="mui-btn mui-btn--danger btn" onclick="clear_canvas()">clear</button>   
             </div>
+            <canvas width="140" id="chart_box"></canvas>
         </div>
     </body>
+    <script>
+        var chart = document.getElementById('chart_box');
+        var chart_context = chart.getContext('2d');
+        var label = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        var clear_chart = function() {
+            if (window.chart) {
+                window.chart.destroy();
+            }
+        }
+        var show_data = function(probabilities) {
+            window.chart =  new Chart(chart_context, {
+                type: 'bar',
+                data: {
+                  labels: label,
+                  datasets: [{
+                      label: 'probabilities',
+                      backgroundColor: '#f50057',
+                      borderColor: 'rgb(255, 99, 132)',
+                      data: probabilities,
+                  }]
+                },
+                options: {}
+            })
+        }
+    </script>
     <script>
         var fabric_canvas = new fabric.Canvas('canvas', {backgroundColor: "#000000"});
         fabric_canvas.renderTop();
@@ -25,18 +53,21 @@
         fabric_canvas.freeDrawingBrush.color = "#ffffff";
 
         var recognize = async function() {
-            var results = await predict('canvas');
+            var results = await predict('canvas', 'mini_canvas');
             console.log(results)
+            show_data(results);
         }
 
         var clear_canvas = function() {
             fabric_canvas.clear();
+            clear_chart();
         }
     </script>
     <style>
         #container {
             width: 300px;
-            text-align: center;
+            /*text-align: center;*/
+            /*display: flex;*/
         }
 
         .canvas-container {
@@ -44,7 +75,7 @@
         }
         .button-container {
             display: flex;
-            justify-content: center;
+            /*justify-content: center;*/
         }
         .btn {
             width: 140px;
