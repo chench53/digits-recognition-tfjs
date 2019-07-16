@@ -1,11 +1,31 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>The demo</title>
+        <title>Simple demo</title>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.0/fabric.min.js'></script>
         <script src='./model.js'></script>
     </head>
     <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
+    	<p>Simple demo</p>
+        <canvas width="140" height="140" id="canvas" class="canvas"></canvas>
+        <button onclick="recognition()">Recognition</button>
     </body>
+    <script>
+        var fabric_canvas = new fabric.Canvas('canvas', {backgroundColor: "#000000"});
+        fabric_canvas.renderTop();
+        fabric_canvas.isDrawingMode = true;
+        fabric_canvas.freeDrawingBrush.width = 12;
+        fabric_canvas.freeDrawingBrush.color = "#ffffff";
+
+    	var recognition = async function() {
+    		var results = await predict('canvas');
+    		console.log(results)
+    	}
+    </script>
+    <style>
+    	.canvas {
+    		background: "#000000";
+    	}
+    </style>
 </html>
