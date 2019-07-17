@@ -1,9 +1,11 @@
 """
     check https://www.tensorflow.org/tutorials
 """
+import logging
+
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras import layers
+from tensorflow.keras import layers, datasets
 import tensorflowjs as tfjs
 
 # https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
@@ -19,7 +21,8 @@ def load_data(path):
             x_train, x_test = x_train/255.0, x_test/255.0
             return (x_train, y_train), (x_test, y_test)
     except FileNotFoundError:
-        print('please download https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz to this path: ./datasets/mnist.npz')
+        logging.warning('please download https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz to this path: {git-path}/server/datasets/mnist.npz if it takes to long at this step')
+        return datasets.mnist.load_data()
 
 def train_modle(data):
     (x_train, y_train), (x_test, y_test) = data
