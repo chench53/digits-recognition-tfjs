@@ -2,36 +2,45 @@
     check https://www.tensorflow.org/tutorials
 """
 import numpy as np
-import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras import layers
 import tensorflowjs as tfjs
 
 # https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
-# I suggest you download this data file before run the model if you get a bad network.
+# I suggest you download this data file before run the model if you got a bad network.
 data_path = r'./datasets/mnist.npz'
 modle_path = r'./models/mnist'
 
 def load_data(path):
-    with np.load(path) as f:
-        x_train, y_train = f['x_train'], f['y_train']
-        x_test, y_test = f['x_test'], f['y_test']
-        return (x_train, y_train), (x_test, y_test)
+    try:
+        with np.load(path) as f:
+            x_train, y_train = f['x_train'], f['y_train']
+            x_test, y_test = f['x_test'], f['y_test']
+            x_train, x_test = x_train/255.0, x_test/255.0
+            return (x_train, y_train), (x_test, y_test)
+    except FileNotFoundError:
+        print('please download https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz to this path: ./datasets/mnist.npz')
 
 def train_modle(data):
     (x_train, y_train), (x_test, y_test) = data
-    model = tf.keras.models.Sequential([
-      tf.keras.layers.Flatten(input_shape=(28, 28)),
-      tf.keras.layers.Dense(512, activation=tf.nn.relu),
-      tf.keras.layers.Dropout(0.2),
-      tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+    model = Sequential([
+        layers.Reshape((28, 28, 1), input_shape=(28, 28)),
+        layers.Conv2D(16, (5, 5), padding='valid', input_shape=(28, 28, 1), activation='relu'),
+        layers.MaxPooling2D(pool_size=2),
+        layers.Dropout(0.2),
+        layers.Flatten(),
+        layers.Dense(128, activation='relu'),
+        layers.Dense(10, activation='softmax')
     ])
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit(x_train, y_train, epochs=5)
+    model.fit(x_train, y_train, epochs=5, batch_size=64)
     model.evaluate(x_test, y_test)
     # model.save('{}/model.h5'.format(modle_path)) # uncomment it if you need the original .h5 file
     tfjs.converters.save_keras_model(model, modle_path)
 
 data = load_data(data_path)
-train_modle(data)
+if data:
+    train_modle(data)

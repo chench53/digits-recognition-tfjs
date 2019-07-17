@@ -11,7 +11,9 @@ loadModel().then();
 var load_img = function(img, mini_id) {
     var tensor = tf.browser.fromPixels(img)
         .resizeNearestNeighbor([width, height])
-    tf.browser.toPixels(tensor, document.getElementById(mini_id));
+    if (mini_id){
+        tf.browser.toPixels(tensor, document.getElementById(mini_id)); // show the resized canvas
+    }
     tensor = tensor
         .mean(2)
         .expandDims()
