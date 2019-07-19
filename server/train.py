@@ -1,6 +1,7 @@
 """
-    check https://www.tensorflow.org/tutorials
+    train the model from the mnist data and save it at models/mnist
 """
+import os
 import logging
 
 import numpy as np
@@ -9,9 +10,9 @@ from tensorflow.keras import layers, datasets
 import tensorflowjs as tfjs
 
 # https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz
-# I suggest you download this data file before run the model if you got a bad network.
-data_path = r'./datasets/mnist.npz'
-modle_path = r'./models/mnist'
+# I suggest you download this data file before train the model if you got a bad network.
+data_path = os.path.join(os.path.dirname(__file__), r'./datasets/mnist.npz')
+model_path = os.path.join(os.path.dirname(__file__), r'./models/mnist')
 
 def load_data(path):
     try:
@@ -21,7 +22,8 @@ def load_data(path):
             x_train, x_test = x_train/255.0, x_test/255.0
             return (x_train, y_train), (x_test, y_test)
     except FileNotFoundError:
-        logging.warning('please download https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz to this path: {git-path}/server/datasets/mnist.npz if it takes to long at this step')
+        msg = 'please download https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz to this path: {git-path}/server/datasets/mnist.npz if it takes to long at this step'
+        logging.warning(msg)
         return datasets.mnist.load_data()
 
 def train_modle(data):
@@ -42,8 +44,10 @@ def train_modle(data):
     model.fit(x_train, y_train, epochs=5, batch_size=64)
     model.evaluate(x_test, y_test)
     # model.save('{}/model.h5'.format(modle_path)) # uncomment it if you need the original .h5 file
-    tfjs.converters.save_keras_model(model, modle_path)
+    tfjs.converters.save_keras_model(model, model_path)
 
 data = load_data(data_path)
 if data:
     train_modle(data)
+else:
+    logging.error('fail to load data')
