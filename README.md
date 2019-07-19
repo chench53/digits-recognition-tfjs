@@ -1,4 +1,4 @@
-# digit-recognition-tfjs
+# digits-recognition-tfjs
 
 This project is a simple demo shows how to train a tensorflow model with python and deploy it in frontend. The author thanks a great deal to this blog [Recognizing Digits using TensorFlow.js in Google Chrome](https://gogul09.github.io/software/digit-recognizer-tf-js), which make this small project possible. You should check this out if you are interested in tf.js.
 
@@ -25,7 +25,7 @@ python main.py
 ```
 By default, the server would be running at port 5000. Open this url http://localhost:5000/, if you see 'Hello World!' in the screen, it means the server is set up successfully.
 
-Open the file web/index.html in you browser. If everything you have done is ok, you should see something like this:
+Open the file web/index.html in you browser. If everything is ok, you should see something like this:
 
 ![demo](./demo.png)
 

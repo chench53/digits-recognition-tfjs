@@ -12,7 +12,6 @@
         <p>Simple demo</p>
         <div id='container'>
             <canvas width="140" height="140" id="canvas" class="canvas"></canvas>
-            <canvas width="28" height="28" id="mini_canvas"></canvas>
             <div class='button-container'>
                 <button class="mui-btn mui-btn--primary btn" onclick="recognize()">recognize</button>
                 <button class="mui-btn mui-btn--danger btn" onclick="clear_canvas()">clear</button>   
@@ -24,11 +23,7 @@
         var chart = document.getElementById('chart_box');
         var chart_context = chart.getContext('2d');
         var label = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        var clear_chart = function() {
-            if (window.chart) {
-                window.chart.destroy();
-            }
-        }
+
         var show_data = function(probabilities) {
             window.chart =  new Chart(chart_context, {
                 type: 'bar',
@@ -36,14 +31,30 @@
                   labels: label,
                   datasets: [{
                       label: 'probabilities',
-                      backgroundColor: '#f50057',
-                      borderColor: 'rgb(255, 99, 132)',
+                      backgroundColor: 'rgba(255, 64, 129, 0.8)',
                       data: probabilities,
                   }]
                 },
-                options: {}
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 1,
+                                stepSize: 0.2
+                            }
+                        }]
+                    }
+                }
             })
         }
+
+        var update_data = function(probabilities) {
+            window.chart.data.datasets[0].data = probabilities;
+            window.chart.update();
+        }
+
+        show_data();
     </script>
     <script>
         var fabric_canvas = new fabric.Canvas('canvas', {backgroundColor: "#000000"});
@@ -53,14 +64,14 @@
         fabric_canvas.freeDrawingBrush.color = "#ffffff";
 
         var recognize = async function() {
-            var results = await predict('canvas', 'mini_canvas');
+            var results = await predict('canvas');
             console.log(results)
-            show_data(results);
+            update_data(results);
         }
 
         var clear_canvas = function() {
             fabric_canvas.clear();
-            clear_chart();
+            update_data();
         }
     </script>
     <style>

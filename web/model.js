@@ -1,6 +1,7 @@
 const width = 28;
 const height = 28;
 const MODEL_URL = 'http://localhost:5000/models/mnist/model.json' 
+// const MODEL_URL = 'https://raw.githubusercontent.com/chench53/digits-recognition-tfjs/master/server/models/mnist/model.json' // on-line model
 
 var loadModel = (async function() {
     window.model = await tf.loadLayersModel(MODEL_URL);
@@ -27,6 +28,5 @@ var predict = async function(id, mini_id) {
     var example = this.load_img(canvas, mini_id);
     var prediction = await model.predict(example).data();
     var results = Array.from(prediction);
-
     return results
 }
