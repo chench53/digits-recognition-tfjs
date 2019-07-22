@@ -26,6 +26,6 @@ By default, the server would be running at port 5000. Open this url http://local
 
 Open the file web/index.html in you browser. If everything is ok, you should see something like this:
 
-![demo](./demo.png)
+![demo screenshot](https://i.imgur.com/fRu7WzV.png)
 
 Now you can draw the digit on the black canvas and click the 'recognize' button to see the prediction.
