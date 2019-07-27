@@ -30,7 +30,7 @@ def train_modle(data):
     (x_train, y_train), (x_test, y_test) = data
     model = Sequential([
         layers.Reshape((28, 28, 1), input_shape=(28, 28)),
-        layers.Conv2D(16, (5, 5), padding='valid', input_shape=(28, 28, 1), activation='relu'),
+        layers.Conv2D(16, (5, 5), padding='same', input_shape=(28, 28, 1), activation='relu'),
         layers.MaxPooling2D(pool_size=2),
         layers.Dropout(0.2),
         layers.Flatten(),

@@ -6,7 +6,7 @@ Python requirements:
 * flask
 * flask-cors
 
-This demo has already contained a tensorflowjs model located at server/models/mnist with 98% accuracy on test data set. But if you want to re-train the model yourself, you need
+This demo has already contained a tensorflowjs model located at server/models/mnist with 98% accuracy on test data set. If you want to re-train the model yourself, you need
 * tensorflow
 * tensorflowjs
 
@@ -22,9 +22,9 @@ To make this model accessible to a web page, run the server:
 python server/main.py
 ```
 
-By default, the server would be running at port 5000. Open this url http://localhost:5000/, if you see 'Hello World!' in the screen, it means the server is set up successfully.
+By default, the server would be running at port 5000. Open http://localhost:5000/, if you see 'Hello World!' in the screen, the server is set up successfully.
 
-Open the file web/index.html in you browser. If everything is ok, you should see something like this:
+Open the file web/index.html in you browser. If everything is ok, there should be something like this:
 
 ![demo screenshot](https://i.imgur.com/fRu7WzV.png)
 
