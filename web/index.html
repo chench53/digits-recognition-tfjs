@@ -12,9 +12,10 @@
         <p>Simple demo</p>
         <div id='container'>
             <canvas width="140" height="140" id="canvas" class="canvas"></canvas>
+            <!-- <canvas width="28" height="28" id="canvas_mini" class="canvas"></canvas> -->
             <div class='button-container'>
                 <button class="mui-btn mui-btn--primary btn" onclick="recognize()">recognize</button>
-                <button class="mui-btn mui-btn--danger btn" onclick="clear_canvas()">clear</button>   
+                <button class="mui-btn mui-btn--danger btn" onclick="clear_canvas()">clear</button>
             </div>
             <canvas width="140" id="chart_box"></canvas>
         </div>
@@ -60,7 +61,7 @@
         var fabric_canvas = new fabric.Canvas('canvas', {backgroundColor: "#000000"});
         fabric_canvas.renderTop();
         fabric_canvas.isDrawingMode = true;
-        fabric_canvas.freeDrawingBrush.width = 12;
+        fabric_canvas.freeDrawingBrush.width = 8;
         fabric_canvas.freeDrawingBrush.color = "#ffffff";
 
         var recognize = async function() {
